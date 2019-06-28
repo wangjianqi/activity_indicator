@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:activity_indicator/activity_indicator.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(
   home: ActivityIndicatorExample(),
@@ -18,9 +15,8 @@ class ActivityIndicatorExample extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      appBar: AppBar(title: const Text("加载测试"),),
+      appBar: AppBar(title: const Text("flutter加载测试"),),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
@@ -45,12 +41,14 @@ class ActivityIndicatorExample extends StatelessWidget{
               children: <Widget>[
                 FloatingActionButton(
                   onPressed: (){
+                    ///开始
                     controller.start();
                   },
                   child: new Text("Start"),
                 ),
                 FloatingActionButton(
                   onPressed: (){
+                    ///结束
                     controller.stop();
                   },
                   child: new Text("Stop"),

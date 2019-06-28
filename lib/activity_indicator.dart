@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
-
-typedef void UIActivityIndicatorWidgetCreatedCallback(ActivityIndicatorController controller);
+typedef void UIActivityIndicatorWidgetCreatedCallback(
+    ActivityIndicatorController controller);
 
 class ActivityIndicatorController {
+  ///和原生交互
   ActivityIndicatorController._(int id)
       : _channel = MethodChannel('plugins/activity_indicator_$id');
 
@@ -23,52 +23,47 @@ class ActivityIndicatorController {
   }
 }
 
-class UIActivityIndicator extends StatefulWidget{
-
+class UIActivityIndicator extends StatefulWidget {
   const UIActivityIndicator({
     Key key,
     this.onActivityIndicatorWidgetCreated,
     this.hexColor,
+  }) : super(key: key);
 
-  }):super(key:key);
-
-  final UIActivityIndicatorWidgetCreatedCallback onActivityIndicatorWidgetCreated;
+  final UIActivityIndicatorWidgetCreatedCallback
+      onActivityIndicatorWidgetCreated;
   final String hexColor;
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _UIActivityIndicatorState();
   }
-
 }
 
-class _UIActivityIndicatorState extends State<UIActivityIndicator>{
+class _UIActivityIndicatorState extends State<UIActivityIndicator> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    if(defaultTargetPlatform == TargetPlatform.iOS){
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      ///用UiKitView创建
       return UiKitView(
         viewType: "plugins/activity_indicator",
-        onPlatformViewCreated:_onPlatformViewCreated,
-        creationParams: <String,dynamic>{
-          "hexColor":widget.hexColor,
-          "hidesWhenStopped":true,
-
+        onPlatformViewCreated: _onPlatformViewCreated,
+        ///参数
+        creationParams: <String, dynamic>{
+          "hexColor": widget.hexColor,
+          "hidesWhenStopped": true,
         },
         creationParamsCodec: new StandardMessageCodec(),
-
       );
-
     }
     return Text('activity_indicator插件尚不支持$defaultTargetPlatform ');
   }
 
-  void _onPlatformViewCreated(int id){
-    if(widget.onActivityIndicatorWidgetCreated == null){
+  void _onPlatformViewCreated(int id) {
+    if (widget.onActivityIndicatorWidgetCreated == null) {
       return;
     }
-    widget.onActivityIndicatorWidgetCreated(new ActivityIndicatorController._(id));
+    widget.onActivityIndicatorWidgetCreated(
+        new ActivityIndicatorController._(id));
   }
-
 }
